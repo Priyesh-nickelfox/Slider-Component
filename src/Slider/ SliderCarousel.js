@@ -9,7 +9,7 @@ import SliderData from "./SliderData/SliderData";
 const getSliderWidth = () => {
   if (window.innerWidth >= 1600) return '70%';
   else if (window.innerWidth >= 1400 && window.innerWidth < 1600) return '80%';
-  else if (window.innerWidth >= 1200 && window.innerWidth < 1400) return '85%';
+  else if (window.innerWidth >= 1200 && window.innerWidth < 1400) return '75%';
   else return '70%';
 };
 
