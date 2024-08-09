@@ -6,17 +6,43 @@ import Slider from "react-slick";
 import "./SliderCarousel.css";
 import SliderData from "./SliderData/SliderData";
 
-const getSlidesToShow = () => {
-  if (window.innerWidth > 1024) return 3;
-  else if (window.innerWidth <= 1024 && window.innerWidth >= 700) return 2;
-  else return 1;
+const getSliderWidth = () => {
+  if (window.innerWidth >= 1600) return '70%';
+  else if (window.innerWidth >= 1400 && window.innerWidth < 1600) return '80%';
+  else if (window.innerWidth >= 1200 && window.innerWidth < 1400) return '85%';
+  else return '70%';
 };
 
+const getSlidesCount = () => {
+  if(window.innerWidth >= 720 && window.innerWidth < 1000) return 1;
+  if(window.innerWidth >= 1000 && window.innerWidth < 1200) return 2;
+  else return 3;
+}
+
 const SliderCarousel = () => {
-  const [slidesToShow, setSlidesToShow] = useState(getSlidesToShow);
+  const [SliderWidth, setSliderWidth] = useState(getSliderWidth);
+  const [SlidesCount, setSlidesCount] = useState(getSlidesCount);
+  const [imageData, setImageData] = useState([]);
+
+  useEffect(()=>{
+    const getData = async () => {
+      try {
+        const result = await fetch('https://api.unsplash.com/photos/?client_id=9tyulxcUoSfxvEyjN4hwwUwflt5_3HrpHgSCQNCxL5o');
+        const data = await result.json();
+        setImageData(data);
+      }
+      catch(error) {
+        console.log(`The error is ${error}`)
+      }
+    }
+    getData();
+  }, [])
 
   useEffect(() => {
-    const handleResize = () => setSlidesToShow(getSlidesToShow);
+    const handleResize = () => {
+      setSliderWidth(getSliderWidth);
+      setSlidesCount(getSlidesCount);
+    }
 
     window.addEventListener("resize", handleResize);
 
@@ -24,69 +50,33 @@ const SliderCarousel = () => {
   }, []);
 
   const settings = {
-    dots: true,
+    className: "center",
+    centerMode: true,
     infinite: true,
-    speed: 500,
-    slidesToShow: slidesToShow,
-    slidesToScroll: 1,
+    slidesToShow: SlidesCount,
+    speed: 500
   };
 
   return (
-    <Box>
+    <Box sx={{width: SliderWidth}}>
       <Slider {...settings}>
-        {SliderData.map((data, index) => (
+        {imageData.map((data, index) => (
           <Box
             key={index}
           > 
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                backgroundColor: "#4070F4",
-                borderTopRightRadius: "25px",
-                borderTopLeftRadius: "25px",
-                padding: "30px 0px",
+                borderRadius: '25px',
                 border: "10px solid white",
+                overflow: "hidden",
+                height: '400px'
               }}
             >
               <img
-                src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjxivAs4UknzmDfLBXGMxQkayiZDhR2ftB4jcIV7LEnIEStiUyMygioZnbLXCAND-I_xWQpVp0jv-dv9NVNbuKn4sNpXYtLIJk2-IOdWQNpC2Ldapnljifu0pnQqAWU848Ja4lT9ugQex-nwECEh3a96GXwiRXlnGEE6FFF_tKm66IGe3fzmLaVIoNL/s1600/img_avatar.png"
+                src={data.urls.small}
                 alt="Profile"
-                style={{ borderRadius: "50%", height: "200px", width: "200px" }}
+                style={{ height: "100%", width: "100%", objectFit: "cover"}}
               />
-            </Box>
-            <Box
-              sx={{
-                borderBottomLeftRadius: "25px",
-                borderBottomRightRadius: "25px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: "25px 15px",
-                gap: "10px",
-                backgroundColor: "white",
-              }}
-            >
-              <Typography variant="h4" sx={{ fontWeight: "900" }}>
-                {data.name}
-              </Typography>
-              <Typography variant="body1" sx={{ textAlign: "center" }}>
-                {data.about}
-              </Typography>
-              <Button
-                variant="contained"
-                sx={{
-                  textTransform: "none",
-                  padding: "10px",
-                  fontSize: "18px",
-                  fontWeight: "900",
-                  marginTop: "30px",
-                  width: '50%',
-                  cursor: 'pointer'
-                }}
-              >
-                View More
-              </Button>
             </Box>
           </Box>
         ))}
