@@ -1,3 +1,8 @@
+
+
+
+
+
 const SliderData = [
     {
         name: 'John',

@@ -3,11 +3,11 @@
 }
 
 .slick-list, .slick-slider, .slick-track{
-    padding: 3rem 0;
+    padding: 7rem 0;
 }
 
 .center .slick-center .slides {
-    transform: scale(1.3);
+    transform: scale(1.7);
     z-index: 10000;
     transition: all 400ms ease-in-out;
     /* opacity: 1; */

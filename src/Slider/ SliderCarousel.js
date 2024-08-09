@@ -14,14 +14,19 @@ const getSliderWidth = () => {
 };
 
 const getSlidesCount = () => {
-  if(window.innerWidth >= 720 && window.innerWidth < 1000) return 1;
-  if(window.innerWidth >= 1000 && window.innerWidth < 1200) return 2;
+  if(window.innerWidth >= 720 && window.innerWidth < 1000) return 2;
   else return 3;
+}
+
+const getCenterModeValue = () => {
+  if(window.innerWidth <= 1000) return false;
+  else return true;
 }
 
 const SliderCarousel = () => {
   const [SliderWidth, setSliderWidth] = useState(getSliderWidth);
   const [SlidesCount, setSlidesCount] = useState(getSlidesCount);
+  const [centerModeValue, setCenterModeValue] = useState(getCenterModeValue);
   const [imageData, setImageData] = useState([]);
 
   useEffect(()=>{
@@ -42,6 +47,7 @@ const SliderCarousel = () => {
     const handleResize = () => {
       setSliderWidth(getSliderWidth);
       setSlidesCount(getSlidesCount);
+      setCenterModeValue(getCenterModeValue);
     }
 
     window.addEventListener("resize", handleResize);
@@ -51,7 +57,7 @@ const SliderCarousel = () => {
 
   const settings = {
     className: "center",
-    centerMode: true,
+    centerMode: centerModeValue,
     infinite: true,
     slidesToShow: SlidesCount,
     speed: 500
