@@ -4,7 +4,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import "./SliderCarousel.css";
-import SliderData from "./SliderData/SliderData";
 
 const getSliderWidth = () => {
   if (window.innerWidth >= 1600) return '70%';
