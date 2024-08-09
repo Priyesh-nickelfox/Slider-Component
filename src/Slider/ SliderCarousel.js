@@ -18,7 +18,7 @@ const getSlidesCount = () => {
 }
 
 const getCenterModeValue = () => {
-  if(window.innerWidth <= 1000) return false;
+  if(window.innerWidth < 1000) return false;
   else return true;
 }
 

@@ -7,13 +7,22 @@
 }
 
 .center .slick-center .slides {
+    position: relative;
     transform: scale(1.7);
     z-index: 10000;
     transition: all 400ms ease-in-out;
-    /* opacity: 1; */
+    opacity: 1;
 }
 
 
-/* .center .slides {
-   opacity: 0.8;
+.center .slides {
+   opacity: 0.5;
+}
+
+/* @media (max-width: '1000px') {
+ 
+    .center .slides {
+        opacity: 1;
+     }
+    
 } */
