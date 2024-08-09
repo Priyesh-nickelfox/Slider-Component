@@ -9,7 +9,7 @@ import SliderData from "./SliderData/SliderData";
 const getSliderWidth = () => {
   if (window.innerWidth >= 1600) return '70%';
   else if (window.innerWidth >= 1400 && window.innerWidth < 1600) return '80%';
-  else if (window.innerWidth >= 1200 && window.innerWidth < 1400) return '75%';
+  else if (window.innerWidth >= 1200 && window.innerWidth < 1400) return '85%';
   else return '70%';
 };
 
@@ -61,15 +61,16 @@ const SliderCarousel = () => {
     <Box sx={{width: SliderWidth}}>
       <Slider {...settings}>
         {imageData.map((data, index) => (
-          <Box
+          <div
             key={index}
+            className = "slides"
           > 
             <Box
               sx={{
                 borderRadius: '25px',
                 border: "10px solid white",
                 overflow: "hidden",
-                height: '400px'
+                height: '300px'
               }}
             >
               <img
@@ -78,7 +79,7 @@ const SliderCarousel = () => {
                 style={{ height: "100%", width: "100%", objectFit: "cover"}}
               />
             </Box>
-          </Box>
+          </div>
         ))}
       </Slider>
     </Box>
