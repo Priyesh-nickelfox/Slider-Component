@@ -1,10 +1,25 @@
+import React from 'react';
 import { Box } from '@mui/material';
-import  SliderCarousel from './Slider/ SliderCarousel';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './Login/Login';
+import SignUp from './Login/SignUp';
+import SliderCarousel from './Slider/ SliderCarousel';
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 
 function App() {
   return (
-    <Box sx={{backgroundColor: 'grey', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100vw'}}>
-      <SliderCarousel />
+    <Box>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<SignUp />} />
+          <Route
+            path="/slider"
+            element={<ProtectedRoute element={<SliderCarousel />} />}
+          />
+        </Routes>
+      </Router>
     </Box>
   );
 }

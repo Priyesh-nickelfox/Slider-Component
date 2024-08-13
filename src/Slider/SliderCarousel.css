@@ -19,10 +19,10 @@
    opacity: 0.5;
 }
 
-/* @media (max-width: '1000px') {
+/* @media (max-width: '999px') {
  
     .center .slides {
-        opacity: 1;
+        opacity: 1 !important;
      }
     
 } */

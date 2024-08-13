@@ -1,9 +1,13 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import "./SliderCarousel.css";
+import  auth  from "../Firebase/FirebaseConfig";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+
 
 const getSliderWidth = () => {
   if (window.innerWidth >= 1600) return '70%';
@@ -27,6 +31,10 @@ const SliderCarousel = () => {
   const [SlidesCount, setSlidesCount] = useState(getSlidesCount);
   const [centerModeValue, setCenterModeValue] = useState(getCenterModeValue);
   const [imageData, setImageData] = useState([]);
+  const [authUser, setAuthUser] = useState(null);
+
+  const navigate = useNavigate();
+
 
   useEffect(()=>{
     const getData = async () => {
@@ -54,6 +62,21 @@ const SliderCarousel = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, (user) => {
+      if(user) {
+        setAuthUser(user);
+      }
+      else {
+        setAuthUser(null);
+      }
+    });
+
+    return () => {
+      listen();
+    }
+  }, [])
+
   const settings = {
     className: "center",
     centerMode: centerModeValue,
@@ -62,9 +85,17 @@ const SliderCarousel = () => {
     speed: 500
   };
 
+  const userSignOut = () => {
+    signOut(auth).then(()=>{
+      navigate("/login");
+    }).catch(error => console.log(error));
+  }
+
   return (
-    <Box sx={{width: SliderWidth}}>
-      <Slider {...settings}>
+    <Box sx={{backgroundColor: '#000', height: '100vh'}}>
+      <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <Box sx={{width: SliderWidth}}>
+        <Slider {...settings}>
         {imageData.map((data, index) => (
           <div
             key={index}
@@ -86,8 +117,33 @@ const SliderCarousel = () => {
             </Box>
           </div>
         ))}
-      </Slider>
+        </Slider>
+        </Box>
+      </Box>
+
+      <Box sx={{display: 'flex', justifyContent: 'center'}}>
+      <Button
+                type="submit"
+                sx={{
+                  color: "#fff",
+                  textAlign: "center",
+                  textTransform: "none",
+                  borderRadius: "10px",
+                  padding: '1rem 4rem',
+                  fontWeight: '900',
+                  fontSize: '1.3rem',
+                  background: "linear-gradient(to right, #D05DB8, #6E62E5)",
+                  "&:hover": {
+                    background: "linear-gradient(to right, #D05DB8, #6E62E5)",
+                  },
+                }}
+                onClick={userSignOut}
+              >
+                LogOut
+        </Button>
+      </Box>
     </Box>
+  
   );
 };
 
